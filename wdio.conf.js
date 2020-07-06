@@ -1,3 +1,9 @@
+let WdioTestRailReporter = require('./node_modules/wdio-testrail-reporter/lib/wdio-testrail-reporter')
+let config_db = require("./ConfKeys/dbConfig");
+
+const video = require('wdio-video-reporter');  // added for allure video reports
+//const reporter = require('wdio-allure-reporter')
+
 exports.config = {
     //
     // ====================
@@ -8,6 +14,8 @@ exports.config = {
     // on a remote machine).
     runner: 'local',
     //
+
+    path: '/',
     // ==================
     // Specify Test Files
     // ==================
@@ -17,7 +25,7 @@ exports.config = {
     // directory is where your package.json resides, so `wdio` will be called from there.
     //
     specs: [
-        './test/specs/**/*.js'
+        './Tests/specs/**/*.js'
     ],
     // Patterns to exclude.
     exclude: [
@@ -53,11 +61,28 @@ exports.config = {
         maxInstances: 5,
         //
         browserName: 'chrome',
+        //'goog:chromeOptions': {
+           // args: ['headless', 'disable-gpu'],
+            //}
+        },
         // If outputDir is provided WebdriverIO can capture driver session logs
         // it is possible to configure which logTypes to include/exclude.
         // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
         // excludeDriverLogs: ['bugreport', 'server'],
-    }],
+         //firefox Browser	
+        //  {	
+        //     maxInstances: 1,	
+        //    browserName: 'firefox',"moz:firefoxOptions":{
+        //     "args":['-headless']
+        //     },	
+        //    },	
+        // // internet explorer Browser	
+          //  {	
+          //   maxInstances: 1,	
+          //  browserName: 'internet explorer',	
+          //  },	
+  
+    ],
     //
     // ===================
     // Test Configurations
@@ -89,7 +114,9 @@ exports.config = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    baseUrl: 'http://10.21.12.131:3000/customer',
+    //baseUrl: 'http://www.webdriveruniversity.com/',
+    baseUrl: config_db.databaseOptions.demo,
+    
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 10000,
@@ -105,7 +132,7 @@ exports.config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['chromedriver'],
+     services: ['selenium-standalone'],
     
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -124,19 +151,65 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter.html
-    reporters: ['spec'],
+    //Ensure that your testrail installation API is enabled and generate your API keys. See http://docs.gurock.com/
+    //Mark your mocha test names with ID of Testrail test cases. Ensure that your case ids are well distinct from test descriptions.
+    //it("C123 C124 Authenticate with invalid user", . . .
+    // it("Authenticate a valid user C321", . . .
+    // Only passed or failed tests will be published. Skipped or pending tests will not be published resulting in a "Pending" status in testrail test run.
 
+//Add reporter to wdio.conf.js:
+   reporters: ['spec', WdioTestRailReporter],
+  //reporters: ['spec'],
 
+   testRailsOptions: {
+     domain: "webdriverio.testrail.io",
+      username: "rajni.nepali@nitorinfotech.com",
+      password: "0xUc0GzpV1YLyGxjx/dQ-eQNnZ8r2wsV6NvVEbC4l",
+      projectId: 1,
+      suiteId: 1,
+      runName: "TestRun1"
+    },   
+
+    // //sayali's reports 
+    // reporters: [
+    //     [video, {	
+    //         saveAllVideos: false,       // If true, also saves videos for successful test cases	
+    //         videoSlowdownMultiplier: 3, // Higher to get slower videos, lower for faster videos [Value 1-100]	
+    //         videoRenderTimeout: 5, 	
+    //         outputDir: './Reports/videos',	
+    //     }],	
     
-    //
-    // Options to be passed to Mocha.
-    // See the full list at http://mochajs.org/
+    //       // Allure reports	
+    //     ['allure', {	
+    //        outputDir: './Reports/allure-results',	
+    //       disableWebdriverStepsReporting: true,	
+    //       disableWebdriverScreenshotsReporting: false,	
+    //     }],	
+    
+    //     // spec reports 
+    //     ['spec', {	
+    //         outputDir: './Reports/spec-results',	
+    //       }],
+    //     //json reports	
+    //     ['json', {	
+    //        outputDir: './Reports/json-results',	
+    //      }],	
+    //     //junit reports	
+    //      ['junit', {	
+    //       outputDir: './Reports/junit-results',	
+    //     }],	
+    //     //Test rail
+    
+    //   ],
+    // //
+    // // Options to be passed to Mocha.
+    // See the full list at http://mochajs.org/   
     mochaOpts: {
-        // Babel setup
-        require: ['@babel/register'],
         ui: 'bdd',
-        timeout: 60000
+        timeout: 60000,
+        compilers: ['js:@babel/register']
     },
+
     //
     // =====
     // Hooks
@@ -213,10 +286,12 @@ exports.config = {
     /**
      * Function to be executed after a test (in Mocha/Jasmine).
      */
-    // afterTest: function(test, context, { error, result, duration, passed, retries }) {
-    // },
-
-
+      afterTest: function(test, context, { error, result, duration, passed, retries }) {	
+        if (error !== undefined) {	
+            browser.takeScreenshot();	
+          }	
+        
+    },
     /**
      * Hook that gets executed after the suite has ended
      * @param {Object} suite suite details
@@ -266,4 +341,6 @@ exports.config = {
     */
     //onReload: function(oldSessionId, newSessionId) {
     //}
+
+    
 }
