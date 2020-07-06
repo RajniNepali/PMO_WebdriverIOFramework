@@ -17,4 +17,4 @@ processExcel(fileName) {
 
     
 }
-export default new DataReaderPage();
+//export default new DataReaderPage();

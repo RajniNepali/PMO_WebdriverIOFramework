@@ -1,5 +1,5 @@
-import page from "./page"
-import BasepageMethods from "../Wrappers/baseMethodPage"
+let page = ("./page");
+let BasepageMethods = require("../Wrappers/baseMethodPage");
 import DataReader from "../Wrappers/dataReaderPage"
 import { config } from "../wdio.conf";
 const pagepath = require("./page")

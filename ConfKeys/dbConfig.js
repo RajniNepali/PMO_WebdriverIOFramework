@@ -4,7 +4,7 @@ module.exports.databaseOptions = {
     password : 'Test123',
     database : 'test',
    // demo     : 'http://www.webdriveruniversity.com/',
-    demo     : 'http://www.webdriveruniversity.com/Contact-Us/contactus.html'
+    demo     : 'http://10.21.12.131:3000/customer'
    //Updated
   }
 
