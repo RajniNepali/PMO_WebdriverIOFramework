@@ -1,7 +1,7 @@
 {
-  "name": "webdriverio_component",
+  "name": "pmo_webdriverioframework",
   "version": "1.0.0",
-  "description": "This is a webdriverio javascript based automation testing framework designed strcuture for resuability",
+  "description": "This is a build in webdriverio framework which is integrated with Nitor PMO site",
   "main": "index.js",
   "directories": {
     "test": "Tests/specs"
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RajniNepali/WebdriverIOReusableFramwork.git"
+    "url": "git+https://github.com/RajniNepali/PMO_WebdriverIOFramework.git"
   },
   "author": "Rajni Nepali",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/RajniNepali/WebdriverIOReusableFramwork/issues"
+    "url": "https://github.com/RajniNepali/PMO_WebdriverIOFramework/issues"
   },
-  "homepage": "https://github.com/RajniNepali/WebdriverIOReusableFramwork#readme",
+  "homepage": "https://github.com/RajniNepali/PMO_WebdriverIOFramework#readme",
   "devDependencies": {
     "@babel/cli": "^7.10.1",
     "@babel/core": "^7.10.2",
