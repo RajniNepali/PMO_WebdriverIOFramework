@@ -6,7 +6,7 @@ describe("Test contact us page on webdriveruniversity", () => {
       browser.setWindowSize(1800, 1200);
     });
     it('should have the right title', async () => {
-        await ContactUs_PO.open();
+       // await ContactUs_PO.open();
         await expect(browser).toHaveTitle('PMO');
     })
 });
